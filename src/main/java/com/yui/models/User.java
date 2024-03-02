@@ -15,8 +15,9 @@ public class User {
     private String email;
     private String displayName;
     private String password;
+    private String walletAddress;
     private boolean isAdmin;
-    private Date timestamp;
+    private Date createdAt;
     private List<Artwork> artworks;
     private List<Comment> comments;
 }
