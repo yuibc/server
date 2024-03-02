@@ -13,5 +13,5 @@ public class NFT {
     private int id;
     private String token;
     private Artwork artwork;
-    private Date timestamp;
+    private Date createdAt;
 }
