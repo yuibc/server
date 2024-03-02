@@ -14,6 +14,9 @@ public class Artwork {
     private String title;
     private String description;
     private String url;
+    private double cryptoPrice;
+    private double convertedPrice;
+    private String currency;
     private boolean published;
     private Date createdAt;
     private User user;
