@@ -28,7 +28,7 @@ public class UserProvider {
     }
 
     @PostMapping("/user")
-    public Long createUser(@RequestBody User user) {
+    public int createUser(@RequestBody User user) {
         return repo.save(user).getId();
     }
 
