@@ -1,6 +1,6 @@
 package com.yui.models;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -18,16 +18,16 @@ import lombok.Data;
 @Table(name="artworks")
 public class Artwork {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     private String title;
     private String description;
     private String url;
-    private double cryptoPrice;
-    private double convertedPrice;
+    private Double cryptoPrice;
+    private Double convertedPrice;
     private String currency;
-    private boolean published;
-    private Date createdAt;
+    private Boolean published;
+    private Timestamp createdAt;
 
     @ManyToOne
     @JoinColumn(name="user_id")

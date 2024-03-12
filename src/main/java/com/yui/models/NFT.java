@@ -1,6 +1,6 @@
 package com.yui.models;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,13 +16,13 @@ import lombok.Data;
 @Table(name="nfts")
 public class NFT {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     private String token;
     
     @ManyToOne
     @JoinColumn(name="artwork_id")
     private Artwork artwork;
 
-    private Date createdAt;
+    private Timestamp createdAt;
 }

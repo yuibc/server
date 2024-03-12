@@ -1,6 +1,6 @@
 package com.yui.models;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -16,10 +16,10 @@ import lombok.Data;
 @Table(name="categories")
 public class Category {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     private String display;
-    private Date createdAt;
+    private Timestamp createdAt;
     
     @OneToMany(mappedBy="category")
     private List<Artwork> artworks;
