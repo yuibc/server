@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.yui.models.User;
 import com.yui.repositories.UserRepository;
 
-@RestController("/api/v1")
+@RestController
 public class UserProvider {
 
     private final UserRepository repo;
