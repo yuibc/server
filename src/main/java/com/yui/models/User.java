@@ -18,25 +18,25 @@ import lombok.Data;
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name="id", columnDefinition="integer")
     private Long id;
 
-    @Column(name="email")
+    @Column(name="email", columnDefinition="varchar(255)", unique = true)
     private String email;
 
-    @Column(name="display_name")
+    @Column(name="display_name", columnDefinition="varchar(50)")
     private String displayName;
 
-    @Column(name="password")
+    @Column(name="password", columnDefinition="varchar(50)")
     private String password;
 
-    @Column(name="wallet_address")
+    @Column(name="wallet_address", columnDefinition="varchar(MAX)")
     private String walletAddress;
 
-    @Column(name="is_admin")
+    @Column(name="is_admin", columnDefinition="bit")
     private Boolean isAdmin;
 
-    @Column(name="created_at")
+    @Column(name="created_at", columnDefinition="timestamp")
     private Timestamp createdAt;
     
     @OneToMany(mappedBy="user")
