@@ -1,6 +1,9 @@
 package com.yui.models;
 
-import java.util.Date;
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,8 +22,9 @@ public class Comment {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String comment;
-    private Date createdAt;
+    private Timestamp createdAt;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
