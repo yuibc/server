@@ -23,6 +23,9 @@ public class Follow {
     @JoinColumn(name="user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name="following_user_id")
     private User followingUser;
+
     private Timestamp createdAt;
 }
