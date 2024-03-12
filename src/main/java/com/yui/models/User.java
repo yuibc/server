@@ -3,11 +3,7 @@ package com.yui.models;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,15 +25,15 @@ public class User {
     private Boolean isAdmin;
     private Timestamp createdAt;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="user")
     private List<Artwork> artworks;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="user")
     private List<Comment> comments;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="user")
     private List<Follow> follows;
+
+    @OneToMany(mappedBy="followingUser")
+    private List<Follow> followingUsers;
 }
