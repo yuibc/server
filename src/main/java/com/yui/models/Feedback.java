@@ -1,5 +1,7 @@
 package com.yui.models;
 
+import java.sql.Timestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,8 +14,9 @@ import lombok.Data;
 @Table(name="feedbacks")
 public class Feedback {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     private String email;
     private String content;
+    private Timestamp sentAt;
 }
