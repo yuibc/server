@@ -1,6 +1,6 @@
 package com.yui.models;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -16,14 +16,14 @@ import lombok.Data;
 @Table(name="users")
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     private String email;
     private String displayName;
     private String password;
     private String walletAddress;
     private Boolean isAdmin;
-    private Date createdAt;
+    private Timestamp createdAt;
     
     @OneToMany(mappedBy="user")
     private List<Artwork> artworks;

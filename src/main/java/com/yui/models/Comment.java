@@ -16,8 +16,8 @@ import lombok.Data;
 @Table(name = "comments")
 public class Comment {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     private String comment;
     private Date createdAt;
 
