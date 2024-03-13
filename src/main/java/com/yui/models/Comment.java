@@ -1,6 +1,6 @@
 package com.yui.models;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,12 +19,11 @@ public class Comment {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String comment;
-    private Date createdAt;
+    private Timestamp createdAt;
 
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
 
-    @JoinColumn(name="comment_parent_id")
-    private Comment commentParent;
+    private Long commentParentId;
 }

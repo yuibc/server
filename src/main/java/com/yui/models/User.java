@@ -33,4 +33,7 @@ public class User {
 
     @OneToMany(mappedBy="user")
     private List<Follow> follows;
+
+    @OneToMany(mappedBy="followingUser")
+    private List<Follow> followingUsers;
 }
