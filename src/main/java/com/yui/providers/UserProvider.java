@@ -2,6 +2,7 @@ package com.yui.providers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,11 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.yui.models.User;
 import com.yui.repositories.UserRepository;
 
-@RestController("/api/v1")
+@RestController
 public class UserProvider {
 
     private final UserRepository repo;
 
+    @Autowired
     public UserProvider(UserRepository repo) {
         this.repo = repo;
     }
@@ -26,7 +28,7 @@ public class UserProvider {
     }
 
     @PostMapping("/user")
-    public int createUser(@RequestBody User user) {
+    public Long createUser(@RequestBody User user) {
         return repo.save(user).getId();
     }
 
