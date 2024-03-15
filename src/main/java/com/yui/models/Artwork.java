@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,6 +38,6 @@ public class Artwork {
     @JoinColumn(name="category_id")
     private Category category;
 
-    @OneToMany(mappedBy="artwork")
+    @OneToMany(mappedBy="artwork", fetch=FetchType.EAGER)
     private List<NFT> nfts;
 }

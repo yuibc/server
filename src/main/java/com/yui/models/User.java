@@ -24,7 +24,7 @@ public class User {
     private String walletAddress;
     private Boolean isAdmin;
     private Timestamp createdAt;
-    
+
     @OneToMany(mappedBy="user")
     private List<Artwork> artworks;
 
