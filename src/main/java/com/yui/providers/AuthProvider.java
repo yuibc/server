@@ -5,18 +5,23 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.yui.models.User;
+import com.yui.repositories.UserRepository;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 
-@Component
-public class JWTProvider {
+@RestController
+public class AuthProvider {
 
     @Value("${JWT_SECRET}")
     private String secret;
@@ -26,18 +31,34 @@ public class JWTProvider {
 
     private Key key;
 
+    private final UserRepository repo;
+
+    @Autowired
+    public AuthProvider(UserRepository repo) {
+        this.repo = repo;
+    }
+
     @PostConstruct
     public void init() {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(User user) {
+
+    @PostMapping("/auth")
+    public ResponseEntity<Map<String, String>> authenticate(@RequestBody User user) {
+        var result = new HashMap<String, String>();
+        result.put("user", "");
+        result.put("accessToken", generateToken(user));
+        return ResponseEntity.ok(result);
+    }
+
+    private String generateToken(User user) {
         var claims = new HashMap<String, Object>();
         claims.put("user", user.getId());
         return doGenerateToken(claims, user.getDisplayName());
     }
 
-    public Boolean validateToken(String token) {
+    private Boolean validateToken(String token) {
         return !isTokenExpired(token);
     }
 
