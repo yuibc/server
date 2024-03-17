@@ -31,10 +31,14 @@ const parser = multer({ storage });
 
 export const ArtworkProvider = (router: Router) => {
     router.get('/user/:id/artworks', async (req: Request, res: Response) => {
-        const { id } = req.params;
-        const user = await userRepository.findOneBy({ id: parseInt(id) });
-        const artworks = await repo.findBy({ user });
-        res.status(200).send(artworks);
+        try {
+            const { id } = req.params;
+            const user = await userRepository.findOneBy({ id: parseInt(id) });
+            const artworks = await repo.findBy({ user });
+            res.status(200).send(artworks);
+        } catch (e) {
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
     });
 
     router.post(
@@ -43,7 +47,7 @@ export const ArtworkProvider = (router: Router) => {
         async (req: Request, res: Response) => {
             const file = req.file;
             if (!file)
-                return res.status(400).send(ResponseMessage.FAILED_TO_UPLOAD);
+                return res.status(500).send(ResponseMessage.FAILED_TO_UPLOAD);
             res.status(201).send(ResponseMessage.UPLOADED_TO_CLOUD);
         },
     );
