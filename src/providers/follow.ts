@@ -4,7 +4,7 @@ import { ResponseMessage } from '../enums';
 import { followRepository as repo, userRepository } from '../repositories';
 
 export const FollowProvider = (router: Router) => {
-    router.get('/user/:id/follows', async (req: Request, res: Response) => {
+    router.get('/user/:id/followers', async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
             const user = await userRepository.findOneBy({ id: parseInt(id) });
