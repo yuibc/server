@@ -13,7 +13,7 @@ export class Comment {
     user: User;
 
     @Column()
-    commentParent: Comment;
+    commentParentId: number;
 
     @Column()
     createdAt: Date;
