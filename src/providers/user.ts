@@ -11,7 +11,7 @@ export const UserProvider = (router: Router) => {
             const { email, displayName, password } = req.body;
             const user = new User();
             user.email = email;
-            user.password = password;
+            await user.setPassword(password);
             user.isAdmin = false;
             user.displayName = displayName;
             await repo.save(user);
