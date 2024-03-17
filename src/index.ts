@@ -1,6 +1,7 @@
 import { AppDataSource } from './data-source';
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
 import {
     ArtworkProvider,
     AuthProvider,
@@ -16,6 +17,8 @@ import {
 function main() {
     dotenv.config();
     const app: Express = express();
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
     AppDataSource.initialize()
         .then(async () => {
             const router = express.Router();
