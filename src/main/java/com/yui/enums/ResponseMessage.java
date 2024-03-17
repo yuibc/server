@@ -5,5 +5,6 @@ public enum ResponseMessage {
     FAILED_TO_UPLOAD,
     NFT_ENCRYPTED,
     FOLLOWED,
-    SENT_FEEDBACK
+    SENT_FEEDBACK,
+    COMMENTED
 }
