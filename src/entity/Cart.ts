@@ -1,10 +1,4 @@
-import {
-    Column,
-    Entity,
-    ManyToOne,
-    PrimaryGeneratedColumn,
-    Timestamp,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Artwork } from './Artwork';
 import { User } from './User';
 
@@ -20,5 +14,5 @@ export class Cart {
     user: User;
 
     @Column()
-    createdAt: Timestamp;
+    createdAt: Date;
 }

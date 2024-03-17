@@ -1,10 +1,4 @@
-import {
-    Column,
-    Entity,
-    ManyToOne,
-    PrimaryGeneratedColumn,
-    Timestamp,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './User';
 
 @Entity()
@@ -22,5 +16,5 @@ export class Comment {
     commentParent: Comment;
 
     @Column()
-    createdAt: Timestamp;
+    createdAt: Date;
 }

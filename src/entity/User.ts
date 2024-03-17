@@ -3,7 +3,6 @@ import {
     PrimaryGeneratedColumn,
     Column,
     BaseEntity,
-    Timestamp,
     OneToMany,
 } from 'typeorm';
 import { Artwork, Cart, Comment, Follow } from '.';
@@ -29,7 +28,7 @@ export class User extends BaseEntity {
     isAdmin: boolean;
 
     @Column()
-    createdAt: Timestamp;
+    createdAt: Date;
 
     @OneToMany(() => Artwork, (artwork) => artwork.user)
     artworks: Artwork[];

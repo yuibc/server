@@ -4,7 +4,6 @@ import {
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
-    Timestamp,
 } from 'typeorm';
 import { Cart, NFT } from '.';
 import { Category } from './Category';
@@ -49,5 +48,5 @@ export class Artwork {
     published: boolean;
 
     @Column()
-    createdAt: Timestamp;
+    createdAt: Date;
 }

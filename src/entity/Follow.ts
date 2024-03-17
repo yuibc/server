@@ -4,7 +4,6 @@ import {
     Entity,
     ManyToOne,
     PrimaryGeneratedColumn,
-    Timestamp,
 } from 'typeorm';
 import { User } from './User';
 
@@ -20,5 +19,5 @@ export class Follow extends BaseEntity {
     followingUser: User;
 
     @Column()
-    createdAt: Timestamp;
+    createdAt: Date;
 }

@@ -1,10 +1,4 @@
-import {
-    Column,
-    Entity,
-    ManyToOne,
-    PrimaryGeneratedColumn,
-    Timestamp,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Artwork } from './Artwork';
 
 @Entity()
@@ -19,5 +13,5 @@ export class NFT {
     artwork: Artwork;
 
     @Column()
-    createdAt: Timestamp;
+    createdAt: Date;
 }
