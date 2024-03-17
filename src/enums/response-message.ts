@@ -7,4 +7,5 @@ export enum ResponseMessage {
     FOLLOWED = 'FOLLOWED',
     NFT_ENCRYPTED = 'NFT_ENCRYPTED',
     ADDED_TO_CART = 'ADDED_TO_CART',
+    UPLOADED_TO_CLOUD = 'UPLOADED_TO_CLOUD',
 }
