@@ -10,4 +10,6 @@ export const AuthProvider = (router: Router) => {
         const { walletAddress } = req.body;
         const user = await userRepository.findOneBy({ walletAddress });
     });
+
+    return router;
 };

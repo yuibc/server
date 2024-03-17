@@ -15,4 +15,6 @@ export const FeedbackProvider = (router: Router) => {
         repo.save(feedback);
         res.status(201).send(ResponseMessage.SENT_FEEDBACK);
     });
+
+    return router;
 };

@@ -23,4 +23,6 @@ export const CartProvider = (router: Router) => {
         repo.save(cart);
         res.status(200).send(ResponseMessage.ADDED_TO_CART);
     });
+
+    return router;
 };

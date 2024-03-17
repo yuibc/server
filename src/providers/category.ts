@@ -13,4 +13,6 @@ export const CategoryProvider = (router: Router) => {
         category.createdAt = new Date();
         res.status(201).send(ResponseMessage.SUCCESS);
     });
+
+    return router;
 };

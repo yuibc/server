@@ -25,4 +25,6 @@ export const FollowProvider = (router: Router) => {
         repo.save(follow);
         res.status(200).send(ResponseMessage.FOLLOWED);
     });
+
+    return router;
 };

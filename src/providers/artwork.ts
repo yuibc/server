@@ -10,4 +10,6 @@ export const ArtworkProvider = (router: Router) => {
     });
 
     router.post('/artwork/upload');
+
+    return router;
 };

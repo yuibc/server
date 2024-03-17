@@ -1,3 +1,5 @@
 import { Router } from 'express';
 
-export const CommentProvider = (router: Router) => {};
+export const CommentProvider = (router: Router) => {
+    return router;
+};
