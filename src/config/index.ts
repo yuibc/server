@@ -1,0 +1,3 @@
+export const SUPABASE_CONNECTION_STRING =
+    process.env.SUPABASE_CONNECTION_STRING;
+export const TARGET_DATABASE = process.env.TARGET_DATABASE;
