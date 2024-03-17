@@ -1,17 +1,24 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import { User } from './entity/User';
+import { TARGET_DATABASE, SUPABASE_CONNECTION_STRING } from './config';
+import {
+    Artwork,
+    Cart,
+    Category,
+    Comment,
+    Feedback,
+    Follow,
+    NFT,
+    User,
+} from './entity';
 
 export const AppDataSource = new DataSource({
     type: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    username: 'test',
-    password: 'test',
-    database: 'test',
+    url: SUPABASE_CONNECTION_STRING,
+    database: TARGET_DATABASE,
     synchronize: true,
     logging: false,
-    entities: [User],
+    entities: [User, Artwork, Category, Cart, Comment, NFT, Feedback, Follow],
     migrations: [],
     subscribers: [],
 });
