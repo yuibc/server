@@ -1,5 +1,33 @@
+import { v2 as cloudinary } from 'cloudinary';
+import multer from 'multer';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import { Router, Request, Response } from 'express';
 import { artworkRepository as repo, userRepository } from '../repositories';
+import {
+    CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET,
+    CLOUDINARY_CLOUD_NAME,
+} from '../config';
+import { ResponseMessage } from '../enums';
+
+cloudinary.config({
+    cloud_name: CLOUDINARY_CLOUD_NAME,
+    api_key: CLOUDINARY_API_KEY,
+    api_secret: CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+    cloudinary,
+    params: async (req, file) => {
+        return {
+            folder: 'artworks',
+            format: 'jpeg',
+            public_id: 'computed-file-name',
+        };
+    },
+});
+
+const parser = multer({ storage });
 
 export const ArtworkProvider = (router: Router) => {
     router.get('/user/:id/artworks', async (req: Request, res: Response) => {
@@ -9,7 +37,16 @@ export const ArtworkProvider = (router: Router) => {
         res.status(200).send(artworks);
     });
 
-    router.post('/artwork/upload');
+    router.post(
+        '/artwork/upload',
+        parser.single('artwork'),
+        async (req: Request, res: Response) => {
+            const file = req.file;
+            if (!file)
+                return res.status(400).send(ResponseMessage.FAILED_TO_UPLOAD);
+            res.status(201).send(ResponseMessage.UPLOADED_TO_CLOUD);
+        },
+    );
 
     return router;
 };
