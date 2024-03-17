@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { isMatch } from '../helpers';
+import { compare } from '../helpers';
 import { userRepository as repo } from '../repositories';
 
 export const verifyTraditional = async (
@@ -15,7 +15,7 @@ export const verifyTraditional = async (
         throw new Error('User does not exist!');
     }
 
-    const isUserMatch = await isMatch(
+    const isUserMatch = await compare(
         password as string,
         user.password as string,
     );
