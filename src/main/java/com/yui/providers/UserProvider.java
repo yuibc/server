@@ -33,7 +33,7 @@ public class UserProvider {
     }
 
     @GetMapping("/user/{id}")
-    public User findById(@PathVariable int id) {
+    public User findById(@PathVariable long id) {
         return repo.findById(id).get();
     }
 }
