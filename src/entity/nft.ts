@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Artwork } from './Artwork';
+import { Artwork } from '.';
 
 @Entity()
 export class NFT {

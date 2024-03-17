@@ -1,16 +1,19 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from './User';
+import { User } from '.';
 
 @Entity()
-export class Follow {
+export class Comment {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => User, (user) => user.follows)
+    @Column()
+    comment: string;
+
+    @ManyToOne(() => User, (user) => user.comments)
     user: User;
 
-    @ManyToOne(() => User, (user) => user.followUsers)
-    followingUser: User;
+    @Column()
+    commentParent: Comment;
 
     @Column()
     createdAt: Date;

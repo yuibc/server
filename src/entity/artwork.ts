@@ -5,9 +5,7 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Cart, NFT } from '.';
-import { Category } from './Category';
-import { User } from './User';
+import { Cart, NFT, Category, User } from '.';
 
 @Entity()
 export class Artwork {
