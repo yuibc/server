@@ -20,5 +20,22 @@ export const UserProvider = (router: Router) => {
             res.status(500).send(ResponseMessage.SERVER_ERROR);
         }
     });
+
+    router.put('/user/:id/wallet', async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            const { walletAddress } = req.body;
+            await repo
+                .createQueryBuilder()
+                .update(User)
+                .set({ walletAddress })
+                .where('id = :id', { id: parseInt(id) })
+                .execute();
+            res.status(200).send(ResponseMessage.WALLET_CONNECT_ESTABLISHED);
+        } catch (e) {
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
+    });
+
     return router;
 };
