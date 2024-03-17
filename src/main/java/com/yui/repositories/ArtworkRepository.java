@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.yui.models.Artwork;
 
 @Repository
-public interface ArtworkRepository extends JpaRepository<Artwork, Integer> {
+public interface ArtworkRepository extends JpaRepository<Artwork, Long> {
 }
