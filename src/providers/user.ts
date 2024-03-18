@@ -14,9 +14,11 @@ export const UserProvider = (router: Router) => {
             await user.setPassword(password);
             user.isAdmin = false;
             user.displayName = displayName;
+            user.createdAt = new Date();
             await repo.save(user);
             res.status(201).send(ResponseMessage.ACCOUNT_REGISTRATED);
         } catch (e) {
+            console.error(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
         }
     });

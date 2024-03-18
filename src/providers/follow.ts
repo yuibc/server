@@ -30,6 +30,7 @@ export const FollowProvider = (router: Router) => {
             await repo.save(follow);
             res.status(200).send(ResponseMessage.FOLLOWED);
         } catch (e) {
+            console.error(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
         }
     });
