@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { compare } from '../helpers';
+import { compare, hashPassword } from '../helpers';
 import { userRepository as repo } from '../repositories';
 
 export const verifyTraditional = async (
@@ -9,7 +9,9 @@ export const verifyTraditional = async (
 ) => {
     const { email, password } = req.body;
 
-    const user = await repo.findOneBy({ email, password });
+    const user = await repo.findOneBy({
+        email,
+    });
 
     if (!user) {
         throw new Error('User does not exist!');
