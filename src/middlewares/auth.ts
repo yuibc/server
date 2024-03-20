@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { compare, hashPassword } from '../helpers';
+import { compare } from '../helpers';
 import { userRepository as repo } from '../repositories';
 
 export const verifyTraditional = async (
