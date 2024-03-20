@@ -9,7 +9,9 @@ export const verifyTraditional = async (
 ) => {
     const { email, password } = req.body;
 
-    const user = await repo.findOneBy({ email, password });
+    const user = await repo.findOneBy({
+        email,
+    });
 
     if (!user) {
         throw new Error('User does not exist!');
