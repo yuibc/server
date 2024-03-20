@@ -18,8 +18,10 @@ export const UserProvider = (router: Router) => {
             await repo.save(user);
             res.status(201).send(ResponseMessage.ACCOUNT_REGISTRATED);
         } catch (e) {
-            console.error(e);
-            res.status(500).send(ResponseMessage.SERVER_ERROR);
+            res.status(500).json({
+                status: ResponseMessage.SERVER_ERROR,
+                message: e,
+            });
         }
     });
 
