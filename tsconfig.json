@@ -12,6 +12,7 @@
         "sourceMap": true,
         "esModuleInterop": true,
         "baseUrl": ".",
-        "allowJs": true
+        "allowJs": true,
+        "skipLibCheck": true
     }
 }
