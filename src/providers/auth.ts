@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import { useAuthToken } from '../helpers';
 import { userRepository } from '../repositories';
 import jwt from 'jsonwebtoken';
-import { verifyTraditional } from '../middlewares';
+import { verifyTraditional, verifyWalletAddress } from '../middlewares';
 
 export const AuthProvider = (router: Router) => {
     router.post(
@@ -30,25 +30,31 @@ export const AuthProvider = (router: Router) => {
         },
     );
 
-    router.post('/phantom/auth', async (req: Request, res: Response) => {
-        const { walletAddress } = req.body;
-        const user = await userRepository.findOneBy({ walletAddress });
-        const { accessToken: token } = useAuthToken(req);
+    router.post(
+        '/wallet/auth',
+        verifyWalletAddress,
+        async (req: Request, res: Response) => {
+            const { walletAddress } = res.locals;
+            const user = await userRepository.findOneBy({ walletAddress });
+            const { accessToken: token } = useAuthToken(req);
 
-        if (!token) {
-            const accessToken = jwt.sign(user.displayName, user.email);
-            return {
-                accessToken,
-                userId: user.id,
-            };
-        }
+            if (!token) {
+                const accessToken = jwt.sign(user.displayName, user.email);
+                return {
+                    accessToken,
+                    userId: user.id,
+                };
+            }
 
-        const payload = jwt.verify(token, user.email);
-        if (!payload) {
-            res.status(403);
-            throw new Error('Invalid token or your token has been expired.');
-        }
-    });
+            const payload = jwt.verify(token, user.email);
+            if (!payload) {
+                res.status(403);
+                throw new Error(
+                    'Invalid token or your token has been expired.',
+                );
+            }
+        },
+    );
 
     return router;
 };
