@@ -11,6 +11,7 @@ export const CartProvider = (router: Router) => {
             const cart = await repo.findBy({ user });
             res.status(200).send(cart);
         } catch (e) {
+            console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
         }
     });
@@ -28,6 +29,7 @@ export const CartProvider = (router: Router) => {
             await repo.save(cart);
             res.status(200).send(ResponseMessage.ADDED_TO_CART);
         } catch (e) {
+            console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
         }
     });

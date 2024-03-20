@@ -11,6 +11,7 @@ export const FollowProvider = (router: Router) => {
             const follows = await repo.findBy({ user });
             res.status(200).send(follows);
         } catch (e) {
+            console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
         }
     });
@@ -30,7 +31,7 @@ export const FollowProvider = (router: Router) => {
             await repo.save(follow);
             res.status(200).send(ResponseMessage.FOLLOWED);
         } catch (e) {
-            console.error(e);
+            console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
         }
     });

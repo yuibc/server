@@ -13,7 +13,7 @@ export const UserProvider = (router: Router) => {
             user.email = email;
             await user.setPassword(password);
             user.isAdmin = false;
-            user.displayName = displayName;
+            user.displayName = `@${displayName}`;
             user.createdAt = new Date();
             await repo.save(user);
             res.status(201).send(ResponseMessage.ACCOUNT_REGISTRATED);
@@ -35,6 +35,7 @@ export const UserProvider = (router: Router) => {
                 .execute();
             res.status(200).send(ResponseMessage.WALLET_CONNECT_ESTABLISHED);
         } catch (e) {
+            console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
         }
     });

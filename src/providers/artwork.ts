@@ -37,6 +37,7 @@ export const ArtworkProvider = (router: Router) => {
             const artworks = await repo.findBy({ user });
             res.status(200).send(artworks);
         } catch (e) {
+            console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
         }
     });
@@ -46,8 +47,9 @@ export const ArtworkProvider = (router: Router) => {
         parser.single('artwork'),
         async (req: Request, res: Response) => {
             const file = req.file;
-            if (!file)
+            if (!file) {
                 return res.status(500).send(ResponseMessage.FAILED_TO_UPLOAD);
+            }
             res.status(201).send(ResponseMessage.UPLOADED_TO_CLOUD);
         },
     );
