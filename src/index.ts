@@ -2,6 +2,7 @@ import { AppDataSource } from './data-source';
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import {
     ArtworkProvider,
     AuthProvider,
@@ -19,6 +20,11 @@ function main() {
     const app: Express = express();
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
+    app.use(
+        cors({
+            origin: 'http://localhost:3000',
+        }),
+    );
     AppDataSource.initialize()
         .then(async () => {
             const router = express.Router();
