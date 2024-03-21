@@ -6,6 +6,20 @@ import { userRepository as repo } from '../repositories/user';
 export const UserProvider = (router: Router) => {
     router.get('/users', async () => await repo.find());
 
+    router.get('/users/:id', async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            const user = await repo.findOne({
+                where: { id: parseInt(id) },
+                select: ['email', 'displayName', 'walletAddress'],
+            });
+            res.status(200).send(user);
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
+    });
+
     router.post('/user', async (req: Request, res: Response) => {
         try {
             const { email, displayName, password } = req.body;
