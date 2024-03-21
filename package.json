@@ -22,7 +22,8 @@
     "dev": "ts-node src/index.ts",
     "typeorm": "typeorm-ts-node-commonjs",
     "build": "tsc -p tsconfig.json",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "start:dev": "npm run build && npm run start"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
