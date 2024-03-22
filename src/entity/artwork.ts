@@ -21,10 +21,10 @@ export class Artwork {
     @Column()
     url: string;
 
-    @Column()
+    @Column({ type: 'float' })
     cryptoPrice: number;
 
-    @Column()
+    @Column({ type: 'float' })
     convertedPrice: number;
 
     @Column()
