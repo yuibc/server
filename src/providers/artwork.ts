@@ -9,6 +9,7 @@ import {
     CLOUDINARY_CLOUD_NAME,
 } from '../config';
 import { ResponseMessage } from '../enums';
+import { Artwork } from '../entity';
 
 cloudinary.config({
     cloud_name: CLOUDINARY_CLOUD_NAME,
@@ -53,6 +54,37 @@ export const ArtworkProvider = (router: Router) => {
             res.status(201).send(ResponseMessage.UPLOADED_TO_CLOUD);
         },
     );
+
+    router.post('/user/:id/artwork', async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            const {
+                title,
+                description,
+                url,
+                cryptoPrice,
+                currency,
+                published,
+            } = req.body;
+            const user = await userRepository.findOneBy({
+                id: parseInt(id),
+            });
+            const artwork = new Artwork();
+            artwork.url = url;
+            artwork.currency = currency;
+            artwork.published = published;
+            artwork.title = title;
+            artwork.description = description;
+            artwork.cryptoPrice = cryptoPrice;
+            artwork.convertedPrice = 0;
+            artwork.createdAt = new Date();
+            artwork.user = user;
+            await repo.save(artwork);
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
+    });
 
     return router;
 };
