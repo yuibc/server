@@ -1,7 +1,11 @@
 import { Router, Request, Response } from 'express';
 import { Cart } from '../entity';
 import { ResponseMessage } from '../enums';
-import { cartRepository as repo, userRepository } from '../repositories';
+import {
+    cartRepository as repo,
+    userRepository,
+    artworkRepository,
+} from '../repositories';
 
 export const CartProvider = (router: Router) => {
     router.get('/user/:id/cart', async (req: Request, res: Response) => {
@@ -19,12 +23,16 @@ export const CartProvider = (router: Router) => {
     router.post('/cart', async (req: Request, res: Response) => {
         try {
             const { userId } = req.query;
+            const { artwork } = req.body;
             const user = await userRepository.findOneBy({
                 id: parseInt(userId as string),
             });
+            const addedArtwork = await artworkRepository.findOneBy({
+                id: artwork,
+            });
             const cart = new Cart();
             cart.user = user;
-            cart.artwork = req.body;
+            cart.artwork = addedArtwork;
             cart.createdAt = new Date();
             await repo.save(cart);
             res.status(200).send(ResponseMessage.ADDED_TO_CART);
