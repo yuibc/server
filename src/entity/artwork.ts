@@ -39,9 +39,6 @@ export class Artwork {
     @OneToMany(() => Cart, (cart) => cart.artwork)
     carts: Cart[];
 
-    @OneToMany(() => NFT, (nft) => nft.artwork)
-    nfts: NFT[];
-
     @Column()
     published: boolean;
 

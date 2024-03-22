@@ -8,7 +8,6 @@ import {
     Comment,
     Feedback,
     Follow,
-    NFT,
     User,
 } from './entity';
 
@@ -18,7 +17,7 @@ export const AppDataSource = new DataSource({
     database: TARGET_DATABASE,
     synchronize: true,
     logging: false,
-    entities: [User, Artwork, Category, Cart, Comment, NFT, Feedback, Follow],
+    entities: [User, Artwork, Category, Cart, Comment, Feedback, Follow],
     migrations: [],
     subscribers: [],
 });
