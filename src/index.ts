@@ -11,7 +11,6 @@ import {
     CommentProvider,
     FeedbackProvider,
     FollowProvider,
-    NFTProvider,
     UserProvider,
 } from './providers';
 
@@ -36,7 +35,6 @@ function main() {
             app.use(CategoryProvider(router));
             app.use(FollowProvider(router));
             app.use(CommentProvider(router));
-            app.use(NFTProvider(router));
             app.use(FeedbackProvider(router));
             app.listen(4000, () =>
                 console.log('Server initializing at port: 4000'),
