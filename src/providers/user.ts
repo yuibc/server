@@ -54,5 +54,22 @@ export const UserProvider = (router: Router) => {
         }
     });
 
+    router.get(
+        '/wallet/:walletAddress/user',
+        async (req: Request, res: Response) => {
+            try {
+                const { walletAddress } = req.params;
+                const user = await repo.findOne({
+                    where: { walletAddress: walletAddress as string },
+                    select: ['email', 'displayName', 'walletAddress'],
+                });
+                res.status(200).send(user);
+            } catch (e) {
+                console.log(e);
+                res.status(500).send(ResponseMessage.SERVER_ERROR);
+            }
+        },
+    );
+
     return router;
 };
