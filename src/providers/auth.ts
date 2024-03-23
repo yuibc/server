@@ -43,13 +43,14 @@ export const AuthProvider = (router: Router) => {
                     user.displayName,
                     user.walletAddress,
                 );
-                return {
+                return res.status(200).json({
                     accessToken,
                     userId: user.id,
-                };
+                });
             }
 
             const payload = jwt.verify(token, user.walletAddress);
+            console.log(payload);
             if (!payload) {
                 res.status(403);
                 throw new Error(
