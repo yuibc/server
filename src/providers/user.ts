@@ -22,20 +22,14 @@ export const UserProvider = (router: Router) => {
 
     router.post('/user', async (req: Request, res: Response) => {
         try {
-            const { email, displayName, password, walletAddress } = req.body;
+            const { email, displayName, walletAddress } = req.body;
             console.log(req.body);
             const user = new User();
             user.email = email;
-            if (!walletAddress) {
-                await user.setPassword(password);
-            } else {
-                user.password = null;
-            }
             user.isAdmin = false;
             user.displayName = `@${displayName}`;
-            user.walletAddress = walletAddress ? walletAddress : null;
+            user.walletAddress = walletAddress;
             user.createdAt = new Date();
-            console.log(user);
             await repo.save(user);
             res.status(201).send(ResponseMessage.ACCOUNT_REGISTRATED);
         } catch (e) {
