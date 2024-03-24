@@ -58,7 +58,7 @@ export const ArtworkProvider = (router: Router) => {
     });
 
     router.post(
-        '/nft/artwork/upload',
+        '/generic/artwork/upload',
         upload.single('xfile'),
         async (req: Request, res: Response) => {
             try {
