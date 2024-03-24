@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Artwork, Cart, Comment, Follow } from '.';
-import { hashPassword } from '../helpers';
 
 @Entity()
 export class User {
@@ -12,9 +11,6 @@ export class User {
 
     @Column()
     displayName: string;
-
-    @Column()
-    password: string;
 
     @Column({ nullable: true })
     walletAddress: string;
@@ -39,8 +35,4 @@ export class User {
 
     @OneToMany(() => Cart, (cart) => cart.user)
     carts: Cart[];
-
-    async setPassword(password: string) {
-        this.password = await hashPassword(password);
-    }
 }
