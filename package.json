@@ -4,11 +4,6 @@
   "description": "Awesome project developed with TypeORM.",
   "type": "commonjs",
   "dependencies": {
-    "@metaplex-foundation/mpl-token-metadata": "^3.2.1",
-    "@metaplex-foundation/umi": "^0.9.1",
-    "@metaplex-foundation/umi-bundle-defaults": "^0.9.1",
-    "@metaplex-foundation/umi-uploader-nft-storage": "^0.9.1",
-    "@solana/web3.js": "^1.91.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cloudinary": "^1.41.3",
