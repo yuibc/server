@@ -3,6 +3,7 @@ import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import fs from 'fs';
 import {
     ArtworkProvider,
     AuthProvider,
@@ -13,9 +14,11 @@ import {
     FollowProvider,
     UserProvider,
 } from './providers';
+import { FILE_UPLOAD_DEST } from './config';
 
 function main() {
     dotenv.config();
+    if (!fs.existsSync(FILE_UPLOAD_DEST)) fs.mkdirSync(FILE_UPLOAD_DEST);
     const app: Express = express();
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());

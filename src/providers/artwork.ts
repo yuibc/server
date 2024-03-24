@@ -5,9 +5,10 @@ import { ResponseMessage } from '../enums';
 import { Artwork } from '../entity';
 import { useMetaplexHelper } from '../helpers';
 import { createGenericFile } from '@metaplex-foundation/umi';
+import { FILE_UPLOAD_DEST } from '../config';
 
 const storage = multer.diskStorage({
-    destination: './public/upload/',
+    destination: FILE_UPLOAD_DEST,
 });
 
 const upload = multer({ storage });
