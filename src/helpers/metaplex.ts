@@ -9,24 +9,24 @@ import {
 } from '@metaplex-foundation/mpl-token-metadata';
 import {
     GenericFile,
-    Pda,
     generateSigner,
+    Signer,
     percentAmount,
+    publicKey,
 } from '@metaplex-foundation/umi';
-import { NFT_STORAGE_API_KEY } from 'src/config';
-import { PublicKey } from '@solana/web3.js';
+import { NFT_STORAGE_API_KEY } from '../config';
 
 type TNFT = {
     name: string;
     uri: string;
-    authority: string;
+    authority: Signer;
 };
 
 type TArtwork = {
     title: string;
     description: string;
     owner: string;
-    artwork: GenericFile;
+    artworkUri: string;
 };
 
 export function useMetaplexHelper() {
@@ -36,44 +36,49 @@ export function useMetaplexHelper() {
 
     const mint = generateSigner(umi);
 
-    const uploadArtwork = async ({
+    const uploadArtwork = async (artwork: GenericFile) => {
+        const [uri] = await umi.uploader.upload([artwork]);
+        return uri;
+    };
+
+    const uploadArtworkMetadata = async ({
         title,
         description,
-        artwork,
+        artworkUri,
         owner,
     }: TArtwork) => {
-        const [uri] = await umi.uploader.upload([artwork]);
         return await umi.uploader.uploadJson({
             title,
             description,
-            artwork: uri,
+            artworkUri,
             owner,
         });
     };
 
     const fetchAsset = async () => await fetchDigitalAsset(umi, mint.publicKey);
 
-    const createAccount = async ({ name, uri, authority }: TNFT) => {
+    const createAccount = async ({ name, uri, authority }: TNFT) =>
         await createV1(umi, {
             mint,
+            authority: mint,
             name,
             uri,
             sellerFeeBasisPoints: percentAmount(2.0),
             tokenStandard: TokenStandard.NonFungible,
         }).sendAndConfirm(umi);
-    };
 
-    const mintToken = async (tokenOwner: Pda | PublicKey) =>
+    const mintToken = async (walletAddress: string) =>
         await mintV1(umi, {
             mint: mint.publicKey,
             amount: 1,
-            tokenOwner,
+            tokenOwner: publicKey(walletAddress),
             tokenStandard: TokenStandard.NonFungible,
         }).sendAndConfirm(umi);
 
     return {
         fetchAsset,
         uploadArtwork,
+        uploadArtworkMetadata,
         createAccount,
         mintToken,
     };
