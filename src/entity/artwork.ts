@@ -21,11 +21,11 @@ export class Artwork {
     @Column()
     url: string;
 
-    @Column({ type: 'float' })
-    cryptoPrice: number;
+    @Column()
+    metadata: string;
 
     @Column({ type: 'float' })
-    convertedPrice: number;
+    cryptoPrice: number;
 
     @Column()
     currency: string;
