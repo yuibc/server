@@ -23,7 +23,6 @@ export const UserProvider = (router: Router) => {
     router.post('/user', async (req: Request, res: Response) => {
         try {
             const { email, displayName, walletAddress } = req.body;
-            console.log(req.body);
             const user = new User();
             user.email = email;
             user.isAdmin = false;
