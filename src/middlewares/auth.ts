@@ -36,21 +36,11 @@ export const verifyWalletAddress = async (
     res: Response,
     next: NextFunction,
 ) => {
-    const { walletAddress, password } = req.body;
+    const { walletAddress } = req.body;
     const user = await repo.findOneBy({ walletAddress });
     if (!user) {
         throw new Error('User does not exist!');
     }
-
-    const isUserMatch = await compare(
-        password as string,
-        user.password as string,
-    );
-
-    if (!isUserMatch) {
-        throw new Error('Password does not match!');
-    }
-
     res.locals.walletAddress = walletAddress;
     next();
 };
