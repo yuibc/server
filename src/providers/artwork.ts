@@ -3,7 +3,6 @@ import { Router, Request, Response } from 'express';
 import { artworkRepository as repo, userRepository } from '../repositories';
 import { ResponseMessage } from '../enums';
 import { Artwork } from '../entity';
-import { useMetaplexHelper } from '../helpers';
 import { createGenericFile } from '@metaplex-foundation/umi';
 import { FILE_UPLOAD_DEST } from '../config';
 
@@ -51,6 +50,7 @@ export const ArtworkProvider = (router: Router) => {
             artwork.createdAt = new Date();
             artwork.user = user;
             await repo.save(artwork);
+            res.status(201).send(ResponseMessage.SUCCESS);
         } catch (e) {
             console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
@@ -62,38 +62,22 @@ export const ArtworkProvider = (router: Router) => {
         upload.single('xfile'),
         async (req: Request, res: Response) => {
             try {
-                const { uploadArtwork } = useMetaplexHelper();
                 const file = req.file;
                 if (!file) {
                     res.status(500).send(ResponseMessage.FAILED_TO_UPLOAD);
                     return;
                 }
-                const artwork = createGenericFile(file.buffer, file.filename);
-                const artworkUri = await uploadArtwork(artwork);
-                res.status(201).json({ artworkUri });
+                const artworkBuffer = createGenericFile(
+                    file.buffer,
+                    file.filename,
+                );
+                res.status(201).json({ artworkBuffer });
             } catch (e) {
                 console.log(e);
                 res.status(500).send(ResponseMessage.SERVER_ERROR);
             }
         },
     );
-
-    router.post('/nft/metadata/upload', async (req: Request, res: Response) => {
-        try {
-            const { uploadArtworkMetadata } = useMetaplexHelper();
-            const { title, description, owner, artworkUri } = req.body;
-            const artworkMetadataUri = await uploadArtworkMetadata({
-                title,
-                description,
-                owner,
-                artworkUri,
-            });
-            res.status(201).json({ artworkMetadataUri });
-        } catch (e) {
-            console.log(e);
-            res.status(500).send(ResponseMessage.SERVER_ERROR);
-        }
-    });
 
     return router;
 };
