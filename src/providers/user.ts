@@ -26,7 +26,11 @@ export const UserProvider = (router: Router) => {
             console.log(req.body);
             const user = new User();
             user.email = email;
-            await user.setPassword(password);
+            if (!walletAddress) {
+                await user.setPassword(password);
+            } else {
+                user.password = null;
+            }
             user.isAdmin = false;
             user.displayName = `@${displayName}`;
             user.walletAddress = walletAddress ? walletAddress : null;
