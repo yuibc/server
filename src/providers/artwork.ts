@@ -55,5 +55,15 @@ export const ArtworkProvider = (router: Router) => {
         }
     });
 
+    router.get('/artworks', async (req: Request, res: Response) => {
+        try {
+            const artworks = await repo.find({ relations: ['user'] });
+            res.status(200).send(artworks);
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
+    });
+
     return router;
 };
