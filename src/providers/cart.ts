@@ -12,7 +12,10 @@ export const CartProvider = (router: Router) => {
         try {
             const { id } = req.params;
             const user = await userRepository.findOneBy({ id: parseInt(id) });
-            const cart = await repo.findBy({ user });
+            const cart = await repo.find({
+                where: { user },
+                relations: ['artwork'],
+            });
             res.status(200).send(cart);
         } catch (e) {
             console.log(e);
