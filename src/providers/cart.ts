@@ -16,7 +16,11 @@ export const CartProvider = (router: Router) => {
                 where: { user },
                 relations: ['artwork'],
             });
-            res.status(200).send(cart);
+            const artworksFromCart = [];
+            for (const item of cart) {
+                artworksFromCart.push(item.artwork);
+            }
+            res.status(200).send(artworksFromCart);
         } catch (e) {
             console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
