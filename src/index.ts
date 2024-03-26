@@ -9,6 +9,7 @@ import {
     CartProvider,
     CategoryProvider,
     CommentProvider,
+    ConversionProvider,
     FeedbackProvider,
     FollowProvider,
     UserProvider,
@@ -37,6 +38,7 @@ function main() {
             app.use(FollowProvider(router));
             app.use(CommentProvider(router));
             app.use(FeedbackProvider(router));
+            app.use(ConversionProvider(router));
             app.listen(4000, () =>
                 console.log('Server initializing at port: 4000'),
             );

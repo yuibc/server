@@ -6,3 +6,4 @@ export * from './comment';
 export * from './feedback';
 export * from './category';
 export * from './auth';
+export * from './conversion';
