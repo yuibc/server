@@ -1,5 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Artwork } from '.';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Category {
@@ -8,9 +7,6 @@ export class Category {
 
     @Column()
     display: string;
-
-    @ManyToOne(() => Artwork, (artwork) => artwork.category)
-    artworks: Artwork[];
 
     @Column()
     createdAt: Date;

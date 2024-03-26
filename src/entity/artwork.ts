@@ -5,7 +5,7 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Cart, NFT, Category, User } from '.';
+import { Cart, User } from '.';
 
 @Entity()
 export class Artwork {
@@ -22,10 +22,10 @@ export class Artwork {
     url: string;
 
     @Column()
-    cryptoPrice: number;
+    metadata: string;
 
-    @Column()
-    convertedPrice: number;
+    @Column({ type: 'float' })
+    cryptoPrice: number;
 
     @Column()
     currency: string;
@@ -33,14 +33,8 @@ export class Artwork {
     @ManyToOne(() => User, (user) => user.artworks)
     user: User;
 
-    @ManyToOne(() => Category, (category) => category.artworks)
-    category: Category;
-
     @OneToMany(() => Cart, (cart) => cart.artwork)
     carts: Cart[];
-
-    @OneToMany(() => NFT, (nft) => nft.artwork)
-    nfts: NFT[];
 
     @Column()
     published: boolean;
