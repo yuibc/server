@@ -16,8 +16,11 @@ export const ArtworkProvider = (router: Router) => {
             try {
                 const { walletAddress } = req.params;
                 const user = await userRepository.findOneBy({ walletAddress });
-                const artworks = await repo.findBy({ user });
-                res.status(200).send({ creator: user.displayName, artworks });
+                const artworks = await repo.find({
+                    where: { user },
+                    relations: ['user'],
+                });
+                res.status(200).send(artworks);
             } catch (e) {
                 console.log(e);
                 res.status(500).send(ResponseMessage.SERVER_ERROR);
