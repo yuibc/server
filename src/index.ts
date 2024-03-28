@@ -23,7 +23,7 @@ function main() {
     app.use(bodyParser.json());
     app.use(
         cors({
-            origin: 'http://localhost:3000',
+            origin: ['http://localhost:3000', 'https://yuiitsu.vercel.app'],
         }),
     );
     AppDataSource.initialize()
