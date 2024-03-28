@@ -10,17 +10,20 @@ import { Artwork } from '../entity';
 // const upload = multer({ storage });
 
 export const ArtworkProvider = (router: Router) => {
-    router.get('/user/:walletAddress/artworks', async (req: Request, res: Response) => {
-        try {
-            const { walletAddress } = req.params;
-            const user = await userRepository.findOneBy({ walletAddress });
-            const artworks = await repo.findBy({ user });
-            res.status(200).send(artworks);
-        } catch (e) {
-            console.log(e);
-            res.status(500).send(ResponseMessage.SERVER_ERROR);
-        }
-    });
+    router.get(
+        '/user/:walletAddress/artworks',
+        async (req: Request, res: Response) => {
+            try {
+                const { walletAddress } = req.params;
+                const user = await userRepository.findOneBy({ walletAddress });
+                const artworks = await repo.findBy({ user });
+                res.status(200).send({ creator: user.displayName, artworks });
+            } catch (e) {
+                console.log(e);
+                res.status(500).send(ResponseMessage.SERVER_ERROR);
+            }
+        },
+    );
 
     router.post('/user/:id/artwork', async (req: Request, res: Response) => {
         try {
