@@ -10,10 +10,10 @@ import { Artwork } from '../entity';
 // const upload = multer({ storage });
 
 export const ArtworkProvider = (router: Router) => {
-    router.get('/user/:id/artworks', async (req: Request, res: Response) => {
+    router.get('/user/:walletAddress/artworks', async (req: Request, res: Response) => {
         try {
-            const { id } = req.params;
-            const user = await userRepository.findOneBy({ id: parseInt(id) });
+            const { walletAddress } = req.params;
+            const user = await userRepository.findOneBy({ walletAddress });
             const artworks = await repo.findBy({ user });
             res.status(200).send(artworks);
         } catch (e) {
