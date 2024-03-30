@@ -41,4 +41,7 @@ export class Artwork {
 
     @Column()
     createdAt: Date;
+
+    @Column({ nullable: true })
+    token: string;
 }
