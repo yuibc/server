@@ -45,4 +45,7 @@ export class Artwork {
 
     @Column({ nullable: true, type: 'json' })
     instructions: Instruction[];
+
+    @Column({ nullable: true })
+    mint: string;
 }
