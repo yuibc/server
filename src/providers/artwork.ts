@@ -73,8 +73,40 @@ export const ArtworkProvider = (router: Router) => {
 
     router.get('/artworks', async (req: Request, res: Response) => {
         try {
-            const artworks = await repo.find({ relations: ['user'] });
-            res.status(200).send(artworks);
+            const data = [];
+            const artworks = await repo.find({
+                relations: ['user'],
+                select: [
+                    'id',
+                    'url',
+                    'user',
+                    'mint',
+                    'title',
+                    'currency',
+                    'metadata',
+                    'published',
+                    'createdAt',
+                    'cryptoPrice',
+                    'description',
+                ],
+            });
+            for (const artwork of artworks) {
+                data.push({
+                    id: artwork.id,
+                    url: artwork.url,
+                    mint: artwork.mint,
+                    metadata: artwork.metadata,
+                    title: artwork.title,
+                    description: artwork.description,
+                    published: artwork.published,
+                    creator: artwork.user.displayName,
+                    walletAddress: artwork.user.walletAddress,
+                    createdAt: artwork.createdAt,
+                    cryptoPrice: artwork.cryptoPrice,
+                    currency: artwork.currency,
+                });
+            }
+            res.status(200).send(data);
         } catch (e) {
             console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
