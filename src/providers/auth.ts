@@ -3,7 +3,7 @@ import { useAuthToken } from '../helpers';
 import { userRepository } from '../repositories';
 import jwt from 'jsonwebtoken';
 import { verifyWalletAddress } from '../middlewares';
-import { JWT_SECRET } from 'src/config';
+import { JWT_SECRET } from '../config';
 
 export const AuthProvider = (router: Router) => {
     // router.post(
