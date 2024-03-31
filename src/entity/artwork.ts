@@ -6,6 +6,7 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Cart, User } from '.';
+import { Instruction } from '@metaplex-foundation/umi';
 
 @Entity()
 export class Artwork {
@@ -42,9 +43,6 @@ export class Artwork {
     @Column()
     createdAt: Date;
 
-    @Column({ nullable: true })
-    token: string;
-
     @Column({ nullable: true, type: 'json' })
-    instructions: Record<string, any>;
+    instructions: Instruction[];
 }
