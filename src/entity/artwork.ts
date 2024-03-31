@@ -44,4 +44,7 @@ export class Artwork {
 
     @Column({ nullable: true })
     token: string;
+
+    @Column({ nullable: true, type: 'json' })
+    instructions: Record<string, any>;
 }

@@ -46,6 +46,7 @@ export const ArtworkProvider = (router: Router) => {
                 published,
                 metadata,
                 token,
+                instructions,
             } = req.body;
             const user = await userRepository.findOneBy({
                 id: parseInt(id),
@@ -61,6 +62,7 @@ export const ArtworkProvider = (router: Router) => {
             artwork.createdAt = new Date();
             artwork.user = user;
             artwork.token = token;
+            artwork.instructions = JSON.parse(instructions);
             await repo.save(artwork);
             res.status(201).send(ResponseMessage.SUCCESS);
         } catch (e) {
