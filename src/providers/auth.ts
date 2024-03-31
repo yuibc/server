@@ -60,6 +60,8 @@ export const AuthProvider = (router: Router) => {
                     'Invalid token or your token has been expired.',
                 );
             }
+
+            return res.status(200).send();
         },
     );
 
