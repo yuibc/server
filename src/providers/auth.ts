@@ -3,6 +3,7 @@ import { useAuthToken } from '../helpers';
 import { userRepository } from '../repositories';
 import jwt from 'jsonwebtoken';
 import { verifyWalletAddress } from '../middlewares';
+import { JWT_SECRET } from 'src/config';
 
 export const AuthProvider = (router: Router) => {
     // router.post(
@@ -39,18 +40,20 @@ export const AuthProvider = (router: Router) => {
             const { accessToken: token } = useAuthToken(req);
 
             if (!token) {
-                const accessToken = jwt.sign(
-                    user.displayName,
-                    user.walletAddress,
-                );
+                const payload = {
+                    user: user.id,
+                    displayName: user.displayName,
+                };
+                const accessToken = jwt.sign(payload, JWT_SECRET, {
+                    expiresIn: '1m',
+                });
                 return res.status(200).json({
                     accessToken,
                     userId: user.id,
                 });
             }
 
-            const payload = jwt.verify(token, user.walletAddress);
-            console.log(payload);
+            const payload = jwt.verify(token, JWT_SECRET);
             if (!payload) {
                 res.status(403);
                 throw new Error(
@@ -59,6 +62,14 @@ export const AuthProvider = (router: Router) => {
             }
         },
     );
+
+    router.get('/verify/token', async (req: Request, res: Response) => {
+        const { accessToken } = useAuthToken(req);
+        if (!accessToken)
+            return res.status(401).send('Access token not provided!');
+        const payload = jwt.verify(accessToken, JWT_SECRET);
+        return res.status(200).send(payload === null);
+    });
 
     return router;
 };

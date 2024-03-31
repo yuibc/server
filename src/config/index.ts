@@ -7,3 +7,4 @@ export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
 export const NFT_STORAGE_API_KEY = process.env.NFT_STORAGE_API_KEY;
 export const FILE_UPLOAD_DEST = './public/uploads';
 export const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY;
+export const JWT_SECRET = process.env.JWT_SECRET;
