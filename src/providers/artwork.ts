@@ -153,5 +153,21 @@ export const ArtworkProvider = (router: Router) => {
         }
     });
 
+    router.delete('/artwork/:id/burn', async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            await repo
+                .createQueryBuilder()
+                .delete()
+                .from(Artwork)
+                .where('id = :id', { id: parseInt(id) })
+                .execute();
+            res.status(200).send(ResponseMessage.SUCCESS);
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
+    });
+
     return router;
 };
