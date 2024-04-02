@@ -4,7 +4,14 @@ import { ResponseMessage } from '../enums';
 import { categoryRepository as repo } from '../repositories';
 
 export const CategoryProvider = (router: Router) => {
-    router.get('/categories', async () => await repo.find());
+    router.get('/categories', async (req: Request, res: Response) => {
+        try {
+            res.status(200).send(await repo.find({ select: ['display'] }));
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
+    });
 
     router.post('/category', async (req: Request, res: Response) => {
         try {

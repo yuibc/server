@@ -1,56 +1,117 @@
-import { v2 as cloudinary } from 'cloudinary';
-import multer from 'multer';
-import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import { Router, Request, Response } from 'express';
 import { artworkRepository as repo, userRepository } from '../repositories';
-import {
-    CLOUDINARY_API_KEY,
-    CLOUDINARY_API_SECRET,
-    CLOUDINARY_CLOUD_NAME,
-} from '../config';
 import { ResponseMessage } from '../enums';
+import { Artwork } from '../entity';
 
-cloudinary.config({
-    cloud_name: CLOUDINARY_CLOUD_NAME,
-    api_key: CLOUDINARY_API_KEY,
-    api_secret: CLOUDINARY_API_SECRET,
-});
+// const storage = multer.diskStorage({
+//     destination: FILE_UPLOAD_DEST,
+// });
 
-const storage = new CloudinaryStorage({
-    cloudinary,
-    params: async (req, file) => {
-        return {
-            folder: 'artworks',
-            format: 'jpeg',
-            public_id: 'computed-file-name',
-        };
-    },
-});
-
-const parser = multer({ storage });
+// const upload = multer({ storage });
 
 export const ArtworkProvider = (router: Router) => {
-    router.get('/user/:id/artworks', async (req: Request, res: Response) => {
+    router.get(
+        '/user/:walletAddress/artworks',
+        async (req: Request, res: Response) => {
+            try {
+                const { walletAddress } = req.params;
+                const user = await userRepository.findOneBy({ walletAddress });
+                const artworks = await repo.find({
+                    where: { user },
+                });
+                const data = [];
+                for (const artwork of artworks) {
+                    data.push({
+                        ...artwork,
+                        creator: user.displayName,
+                    });
+                }
+                res.status(200).send(data);
+            } catch (e) {
+                console.log(e);
+                res.status(500).send(ResponseMessage.SERVER_ERROR);
+            }
+        },
+    );
+
+    router.post('/user/:id/artwork', async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const user = await userRepository.findOneBy({ id: parseInt(id) });
-            const artworks = await repo.findBy({ user });
-            res.status(200).send(artworks);
+            const {
+                title,
+                description,
+                url,
+                cryptoPrice,
+                currency,
+                published,
+                metadata,
+                instructions,
+                mint,
+            } = req.body;
+            const user = await userRepository.findOneBy({
+                id: parseInt(id),
+            });
+            const artwork = new Artwork();
+            artwork.url = url;
+            artwork.currency = currency;
+            artwork.published = published;
+            artwork.title = title;
+            artwork.description = description;
+            artwork.cryptoPrice = cryptoPrice;
+            artwork.metadata = metadata;
+            artwork.createdAt = new Date();
+            artwork.user = user;
+            artwork.instructions = instructions;
+            artwork.mint = mint;
+            await repo.save(artwork);
+            res.status(201).send(ResponseMessage.SUCCESS);
         } catch (e) {
+            console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
         }
     });
 
-    router.post(
-        '/artwork/upload',
-        parser.single('artwork'),
-        async (req: Request, res: Response) => {
-            const file = req.file;
-            if (!file)
-                return res.status(500).send(ResponseMessage.FAILED_TO_UPLOAD);
-            res.status(201).send(ResponseMessage.UPLOADED_TO_CLOUD);
-        },
-    );
+    router.get('/artworks', async (req: Request, res: Response) => {
+        try {
+            const data = [];
+            const artworks = await repo.find({
+                relations: ['user'],
+                select: [
+                    'id',
+                    'url',
+                    'user',
+                    'mint',
+                    'title',
+                    'currency',
+                    'metadata',
+                    'published',
+                    'createdAt',
+                    'cryptoPrice',
+                    'description',
+                ],
+            });
+            for (const artwork of artworks) {
+                data.push({
+                    id: artwork.id,
+                    url: artwork.url,
+                    mint: artwork.mint,
+                    metadata: artwork.metadata,
+                    title: artwork.title,
+                    description: artwork.description,
+                    published: artwork.published,
+                    creator: artwork.user.displayName,
+                    walletAddress: artwork.user.walletAddress,
+                    createdAt: artwork.createdAt,
+                    cryptoPrice: artwork.cryptoPrice,
+                    currency: artwork.currency,
+                });
+            }
+            res.status(200).send(data);
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
+    });
 
     return router;
 };
