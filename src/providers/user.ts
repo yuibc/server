@@ -6,19 +6,47 @@ import { userRepository as repo } from '../repositories/user';
 export const UserProvider = (router: Router) => {
     router.get('/users', async () => await repo.find());
 
+    router.get('/:displayName/user', async (req: Request, res: Response) => {
+        try {
+            const { displayName } = req.params;
+            const user = await repo.findOne({
+                where: { displayName },
+                select: ['walletAddress'],
+            });
+            res.status(200).send(user);
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
+    });
+
+    router.get('/users/:id', async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            const user = await repo.findOne({
+                where: { id: parseInt(id) },
+                select: ['email', 'displayName', 'walletAddress'],
+            });
+            res.status(200).send(user);
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
+    });
+
     router.post('/user', async (req: Request, res: Response) => {
         try {
-            const { email, displayName, password } = req.body;
+            const { email, displayName, walletAddress } = req.body;
             const user = new User();
             user.email = email;
-            await user.setPassword(password);
             user.isAdmin = false;
-            user.displayName = displayName;
+            user.displayName = `@${displayName}`;
+            user.walletAddress = walletAddress;
             user.createdAt = new Date();
             await repo.save(user);
             res.status(201).send(ResponseMessage.ACCOUNT_REGISTRATED);
         } catch (e) {
-            console.error(e);
+            console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
         }
     });
@@ -35,9 +63,27 @@ export const UserProvider = (router: Router) => {
                 .execute();
             res.status(200).send(ResponseMessage.WALLET_CONNECT_ESTABLISHED);
         } catch (e) {
+            console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
         }
     });
+
+    router.get(
+        '/wallet/:walletAddress/user',
+        async (req: Request, res: Response) => {
+            try {
+                const { walletAddress } = req.params;
+                const user = await repo.findOne({
+                    where: { walletAddress: walletAddress as string },
+                    select: ['email', 'displayName', 'walletAddress'],
+                });
+                res.status(200).send(user);
+            } catch (e) {
+                console.log(e);
+                res.status(500).send(ResponseMessage.SERVER_ERROR);
+            }
+        },
+    );
 
     return router;
 };
