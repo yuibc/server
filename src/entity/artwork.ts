@@ -23,6 +23,9 @@ export class Artwork {
     url: string;
 
     @Column()
+    cid: string;
+
+    @Column()
     metadata: string;
 
     @Column({ type: 'float' })

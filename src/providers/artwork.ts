@@ -47,6 +47,7 @@ export const ArtworkProvider = (router: Router) => {
                 metadata,
                 instructions,
                 mint,
+                cid,
             } = req.body;
             const user = await userRepository.findOneBy({
                 id: parseInt(id),
@@ -63,6 +64,7 @@ export const ArtworkProvider = (router: Router) => {
             artwork.user = user;
             artwork.instructions = instructions;
             artwork.mint = mint;
+            artwork.cid = cid;
             await repo.save(artwork);
             res.status(201).send(ResponseMessage.SUCCESS);
         } catch (e) {
@@ -88,6 +90,7 @@ export const ArtworkProvider = (router: Router) => {
                     'createdAt',
                     'cryptoPrice',
                     'description',
+                    'cid',
                 ],
             });
             for (const artwork of artworks) {
@@ -104,6 +107,7 @@ export const ArtworkProvider = (router: Router) => {
                     createdAt: artwork.createdAt,
                     cryptoPrice: artwork.cryptoPrice,
                     currency: artwork.currency,
+                    cid: artwork.cid,
                 });
             }
             res.status(200).send(data);
