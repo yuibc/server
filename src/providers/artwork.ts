@@ -113,5 +113,45 @@ export const ArtworkProvider = (router: Router) => {
         }
     });
 
+    router.put(
+        '/artwork/:id/published',
+        async (req: Request, res: Response) => {
+            try {
+                const { id } = req.params;
+                const artwork = await repo.findOne({
+                    where: { id: parseInt(id) },
+                    select: ['published'],
+                });
+                await repo
+                    .createQueryBuilder()
+                    .update(Artwork)
+                    .set({ published: !artwork.published })
+                    .where('id = :id', { id: parseInt(id) })
+                    .execute();
+                res.status(200).send(ResponseMessage.SUCCESS);
+            } catch (e) {
+                console.log(e);
+                res.status(500).send(ResponseMessage.SERVER_ERROR);
+            }
+        },
+    );
+
+    router.put('/artwork/:id/price', async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            const { price } = req.body;
+            await repo
+                .createQueryBuilder()
+                .update(Artwork)
+                .set({ cryptoPrice: parseFloat(price) })
+                .where('id = :id', { id: parseInt(id) })
+                .execute();
+            res.status(200).send(ResponseMessage.SUCCESS);
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
+    });
+
     return router;
 };
