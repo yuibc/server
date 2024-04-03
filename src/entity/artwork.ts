@@ -5,7 +5,7 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Cart, User } from '.';
+import { Cart, Receipt, User } from '.';
 import { Instruction } from '@metaplex-foundation/umi';
 
 @Entity()
@@ -23,6 +23,9 @@ export class Artwork {
     url: string;
 
     @Column()
+    cid: string;
+
+    @Column()
     metadata: string;
 
     @Column({ type: 'float' })
@@ -36,6 +39,9 @@ export class Artwork {
 
     @OneToMany(() => Cart, (cart) => cart.artwork)
     carts: Cart[];
+
+    @OneToMany(() => Receipt, (receipt) => receipt.artwork)
+    receipts: Receipt[];
 
     @Column()
     published: boolean;

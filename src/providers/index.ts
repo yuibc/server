@@ -7,3 +7,4 @@ export * from './feedback';
 export * from './category';
 export * from './auth';
 export * from './conversion';
+export * from './receipt';
