@@ -1,7 +1,13 @@
-# Awesome Project Build with TypeORM
+## How to run
 
-Steps to run this project:
+### Install dependencies
 
-1. Run `npm i` command
-2. Setup database settings inside `data-source.ts` file
-3. Run `npm start` command
+```bash
+npm i
+```
+
+### Start the app
+
+```bash
+npm run dev
+```
