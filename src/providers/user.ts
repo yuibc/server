@@ -4,7 +4,24 @@ import { ResponseMessage } from '../enums';
 import { userRepository as repo } from '../repositories/user';
 
 export const UserProvider = (router: Router) => {
-    router.get('/users', async () => await repo.find());
+    router.get('/users', async (req: Request, res: Response) => {
+        try {
+            const users = await repo.find({
+                select: [
+                    'displayName',
+                    'walletAddress',
+                    'id',
+                    'follows',
+                    'email',
+                ],
+                relations: ['follows'],
+            });
+            res.status(200).send(users);
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
+    });
 
     router.get('/:displayName/user', async (req: Request, res: Response) => {
         try {
