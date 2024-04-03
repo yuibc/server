@@ -12,8 +12,25 @@ export const ReceiptProvider = (router: Router) => {
         try {
             const { id } = req.params;
             const payer = await userRepository.findOneBy({ id: parseInt(id) });
-            const receipt = await repo.find({ where: { payer } });
-            res.status(200).send(receipt);
+            const list = await repo.find({
+                where: { payer },
+                relations: ['payer', 'artwork'],
+            });
+            const receipts = [];
+            for (const receipt of list) {
+                receipts.push({
+                    id: receipt.id,
+                    payer: payer.walletAddress,
+                    artworkTitle: receipt.artwork.title,
+                    artworkUrl: receipt.artwork.url,
+                    mint: receipt.artwork.mint,
+                    amount: receipt.artwork.cryptoPrice,
+                    purchasedAt: receipt.purchasedAt,
+                    transaction: receipt.transaction,
+                    status: receipt.status,
+                });
+            }
+            res.status(200).send(receipts);
         } catch (e) {
             console.log(e);
             res.status(500).send(ResponseMessage.SERVER_ERROR);
