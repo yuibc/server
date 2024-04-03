@@ -4,7 +4,24 @@ import { ResponseMessage } from '../enums';
 import { userRepository as repo } from '../repositories/user';
 
 export const UserProvider = (router: Router) => {
-    router.get('/users', async () => await repo.find());
+    router.get('/users', async (req: Request, res: Response) => {
+        try {
+            const users = await repo.find({
+                select: [
+                    'displayName',
+                    'walletAddress',
+                    'id',
+                    'follows',
+                    'email',
+                ],
+                relations: ['follows'],
+            });
+            res.status(200).send(users);
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(ResponseMessage.SERVER_ERROR);
+        }
+    });
 
     router.get('/:displayName/user', async (req: Request, res: Response) => {
         try {
@@ -78,6 +95,26 @@ export const UserProvider = (router: Router) => {
                     select: ['email', 'displayName', 'walletAddress'],
                 });
                 res.status(200).send(user);
+            } catch (e) {
+                console.log(e);
+                res.status(500).send(ResponseMessage.SERVER_ERROR);
+            }
+        },
+    );
+
+    router.put(
+        '/user/:walletAddress/profile',
+        async (req: Request, res: Response) => {
+            try {
+                const { walletAddress } = req.params;
+                const { email, displayName } = req.body;
+                await repo
+                    .createQueryBuilder()
+                    .update(User)
+                    .set({ email, displayName: `@${displayName}` })
+                    .where('walletAddress = :walletAddress', { walletAddress })
+                    .execute();
+                res.status(200).send(ResponseMessage.PROFILE_UPDATED);
             } catch (e) {
                 console.log(e);
                 res.status(500).send(ResponseMessage.SERVER_ERROR);

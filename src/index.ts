@@ -13,6 +13,7 @@ import {
     FeedbackProvider,
     FollowProvider,
     UserProvider,
+    ReceiptProvider,
 } from './providers';
 
 function main() {
@@ -39,6 +40,7 @@ function main() {
             app.use(CommentProvider(router));
             app.use(FeedbackProvider(router));
             app.use(ConversionProvider(router));
+            app.use(ReceiptProvider(router));
             app.listen(4000, () =>
                 console.log('Server initializing at port: 4000'),
             );

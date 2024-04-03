@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Artwork, Cart, Comment, Follow } from '.';
+import { Artwork, Cart, Comment, Follow, Receipt } from '.';
 
 @Entity()
 export class User {
@@ -32,6 +32,9 @@ export class User {
 
     @OneToMany(() => Comment, (comment) => comment.user)
     comments: Comment[];
+
+    @OneToMany(() => Receipt, (receipt) => receipt.payer)
+    receipts: Receipt[];
 
     @OneToMany(() => Cart, (cart) => cart.user)
     carts: Cart[];

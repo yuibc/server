@@ -5,3 +5,4 @@ export * from './cart';
 export * from './artwork';
 export * from './follow';
 export * from './feedback';
+export * from './receipt';
