@@ -9,6 +9,7 @@ import {
     Feedback,
     Follow,
     User,
+    Receipt,
 } from './entity';
 
 export const AppDataSource = new DataSource({
@@ -17,7 +18,16 @@ export const AppDataSource = new DataSource({
     database: TARGET_DATABASE,
     synchronize: true,
     logging: false,
-    entities: [User, Artwork, Category, Cart, Comment, Feedback, Follow],
+    entities: [
+        User,
+        Artwork,
+        Category,
+        Cart,
+        Comment,
+        Feedback,
+        Follow,
+        Receipt,
+    ],
     migrations: [],
     subscribers: [],
 });
