@@ -102,5 +102,25 @@ export const UserProvider = (router: Router) => {
         },
     );
 
+    router.put(
+        '/user/:walletAddress/profile',
+        async (req: Request, res: Response) => {
+            try {
+                const { walletAddress } = req.params;
+                const { email, displayName } = req.body;
+                await repo
+                    .createQueryBuilder()
+                    .update(User)
+                    .set({ email, displayName: `@${displayName}` })
+                    .where('walletAddress = :walletAddress', { walletAddress })
+                    .execute();
+                res.status(200).send(ResponseMessage.PROFILE_UPDATED);
+            } catch (e) {
+                console.log(e);
+                res.status(500).send(ResponseMessage.SERVER_ERROR);
+            }
+        },
+    );
+
     return router;
 };
